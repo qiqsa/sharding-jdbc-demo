@@ -17,9 +17,9 @@ public class ShardingTestMain {
     @Test
     public void testInsert() throws SQLException, IOException {
         Connection connection = YamlConfigurationExample.getDataSource().getConnection();
-        for (int i = 0; i < 1; i++) {
-           // String sql = "insert into t_order(order_id,user_id)values(1,1)";
-            String sql = "insert into t_order(order_id,user_id)values(" + i + "," + i + ")";
+        for (int i = 0; i < 10; i++) {
+            // String sql = "insert into t_order(order_id,user_id)values(1,1)";
+            String sql = "insert into t_order(order_id,order_name,price)values(" + i + "," + i + "," + i + ")";
             Statement statement = connection.createStatement();
             statement.execute(sql);
         }
@@ -43,25 +43,18 @@ public class ShardingTestMain {
      * @throws SQLException
      */
     @Test
-    public void testselect() throws SQLException {
-        Connection connection = ShardingJdbcDemo.getConn();
-        for (int i = 0; i < 1; i++) {
-            // String sql = "select * from globalTable";
-            String sql = "select * from  t_order_item where";
-            sql = "select @@session.tx_read_only";
-            // String sql = "select sum(order_id) ,user_id from t_order group by user_id,order_id asc";
-            // String select = "select * from t_order where order_id="+10;
-            // String sql = "select a.order_id from t_order a right join t_order_item b on a.order_id=b.order_id order by a.order_id ";
-            //String sql = "select * from t_order";
-            Statement ps = connection.createStatement();
+    public void testselect() throws SQLException, IOException {
+        Connection connection = YamlConfigurationExample.getDataSource().getConnection();
+        // String sql = "select * from globalTable";
+        String sql = "select * from  t_order a left join t_order_item b on a.order_name = b.order_name";
+        Statement ps = connection.createStatement();
 //            ps.setFetchSize(1);
-            ResultSet rs = ps.executeQuery(sql);
+        ResultSet rs = ps.executeQuery(sql);
 
-            System.out.println("查询完成！");
+        System.out.println("查询完成！");
 //                TimeUnit.SECONDS.sleep(80);
-            while (rs.next()) {
-                System.out.println("======== : " + rs.getString(1));
-            }
+        while (rs.next()) {
+            System.out.println("======== : " + rs.getString(1));
         }
     }
 
@@ -143,12 +136,13 @@ public class ShardingTestMain {
     @Test
     public void testShardingInsert() {
         try {
-            Connection connection = YamlConfigurationExample.getDataSource().getConnection();;
-           // String sql = "insert into t_order(order_id,user_id)values(4,4)";
+            Connection connection = YamlConfigurationExample.getDataSource().getConnection();
+            ;
+            // String sql = "insert into t_order(order_id,user_id)values(4,4)";
             Statement st = connection.createStatement();
             ResultSet rs = st.executeQuery("select * from t_order where order_id=2");
-            while (rs.next()){
-                System.out.println(" order_id =" +rs.getString(1));
+            while (rs.next()) {
+                System.out.println(" order_id =" + rs.getString(1));
             }
 
             //st.execute(sql);

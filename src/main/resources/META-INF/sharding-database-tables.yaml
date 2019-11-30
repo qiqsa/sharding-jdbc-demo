@@ -13,17 +13,17 @@ dataSources:
 shardingRule:
   tables:
     t_order:
-      actualDataNodes: ds_${0..1}.t_order_${0..1}
+      actualDataNodes: ds_${0..1}.t_order
       tableStrategy:
         inline:
           shardingColumn: order_id
-          algorithmExpression: t_order_${order_id % 2}
+          algorithmExpression: t_order
     t_order_item:
-      actualDataNodes: ds_${0..1}.t_order_item_${0..1}
+      actualDataNodes: ds_${0..1}.t_order_item
       tableStrategy:
         inline:
           shardingColumn: order_id
-          algorithmExpression: t_order_item_${order_id % 2}
+          algorithmExpression: t_order_item
     pt_resource:
       actualDataNodes: ds_${0}.pt_resource_${0..1}
       tableStrategy:

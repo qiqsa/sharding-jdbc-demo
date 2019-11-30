@@ -13,7 +13,7 @@ import java.sql.SQLException;
  */
 public class YamlConfigurationExample {
 
-    private static ShardingType type = ShardingType.SHARDING_DATABASES;
+    private static ShardingType type = ShardingType.SHARDING_DATABASES_AND_TABLES;
 
     public static DataSource getDataSource() throws IOException, SQLException {
         return YamlShardingDataSourceFactory.createDataSource(getYmlFile());
@@ -29,7 +29,7 @@ public class YamlConfigurationExample {
                 result = "/META-INF/sharding-databases.yaml";
                 break;
             case SHARDING_DATABASES_AND_TABLES:
-                result = "/META-INF/sharding-database-tables.yamlx";
+                result = "/META-INF/sharding-database-tables.yaml";
                 break;
             default:
                 throw new UnsupportedOperationException(type.name());
